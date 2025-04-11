@@ -1,0 +1,24 @@
+from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return '''
+        <form action="/login" method="POST">
+            <input type="text" name="user" placeholder="Username">
+            <input type="password" name="password" placeholder="Password">
+            <button type="submit">Login</button>
+        </form>
+    '''
+
+@app.route('/login', methods=['POST'])
+def login():
+    user = request.form.get('user', '')
+    password = request.form.get('password', '')
+    if user == 'admin' and password == '{flag}':
+        return 'Welcome, admin! Here is your flag: {flag}'
+    return 'Invalid login'
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=5000)
