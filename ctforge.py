@@ -41,6 +41,7 @@ class ForensicsChallengeType(Enum):
     PCAP_ANALYSIS = auto()
     BINARY_FILE = auto()
 
+#class for the generation
 class ChallengeGenerator:
     def __init__(self):
         self.app = Flask(__name__)
@@ -85,6 +86,7 @@ class ChallengeGenerator:
         conn.commit()
         conn.close()
 
+    #db file,server and flag
     def _generate_web_challenge_files(self, challenge_type: WebChallengeType, 
                                     challenge_dir: Path, db_path: Path, flag: str) -> Dict[str, Any]:
         """Generate files for specific web challenge type"""
