@@ -120,6 +120,7 @@ class ChallengeGenerator:
         self._create_web_common_files(challenge_dir)
         return challenge_info
 
+    #sqli web challenge
     def _create_sqli_challenge(self, challenge_dir: Path, db_path: Path) -> None:
         """Create SQL injection challenge"""
         app_code = f"""from flask import Flask, request
