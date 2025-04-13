@@ -21,6 +21,7 @@ def login():
         return 'Welcome, admin! Here is your flag: {flag}'
     return 'Invalid login'
 
+#run local server
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000)
 
