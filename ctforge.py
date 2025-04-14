@@ -415,6 +415,7 @@ fernet.decrypt(encrypted_flag.encode()).decode()"""
 
         return challenge_info
 
+# Parse arguements and provide info
 def main():
     parser = argparse.ArgumentParser(description="CTF Challenge Generator")
     parser.add_argument('--type', choices=['web', 'crypto', 'forensics'], 
