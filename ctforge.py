@@ -254,7 +254,8 @@ if __name__ == '__main__':
             encrypted_flag = base64.b64encode(flag.encode()).decode()
             challenge_info["hint"] = "This flag is encoded using Base64."
             challenge_info["solution_script"] = "base64.b64decode(encrypted_flag).decode()"
-            
+
+        #rot 13 caesar-cipher
         elif challenge_type == CryptoChallengeType.ROT13:
             encrypted_flag = flag.translate(str.maketrans(
                 "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
