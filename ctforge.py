@@ -446,6 +446,7 @@ def main():
         print(f"Error generating challenge: {e}")
         exit(1)
 
+#execute drafted piece of code
 if __name__ == '__main__':
     main()
 
