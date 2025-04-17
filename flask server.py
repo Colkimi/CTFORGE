@@ -46,6 +46,7 @@ def index():
     except:
         return "Error reading file"
 
+#execute drafted piece of code
 #Run port 5000 on local server
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000)
