@@ -7,7 +7,7 @@ import random
 import base64
 import binascii
 import piexif
-from flask import Flask, reques
+from flask import Flask, request
 from pathlib import Path
 from enum import Enum, auto
 from typing import Optional, Dict, Any
