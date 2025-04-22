@@ -2,7 +2,7 @@
 import os
 import uuid
 import argparse
-import sqlite3
+import sqlite
 import random
 import base64
 import binascii
