@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import os
-import uui
+import uuid
 import argparse
 import sqlite3
 import random
