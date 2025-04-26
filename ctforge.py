@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import os
+import o
 import uuid
 import argparse
 import sqlite3
