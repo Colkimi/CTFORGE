@@ -1,4 +1,4 @@
-#import flask for server
+#import flask for serve
 from flask import Flask, request
 
 app = Flask(__name__)
