@@ -384,7 +384,7 @@ fernet.decrypt(encrypted_flag.encode()).decode()"""
         challenge_dir = self.create_challenge_directory(output_dir)
         flag = self.generate_flag()
         self.save_flag(challenge_dir, flag)
-
+        #provide challenge info
         challenge_info = {
             "flag": flag,
             "directory": str(challenge_dir),
