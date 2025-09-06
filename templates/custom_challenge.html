@@ -1,0 +1,80 @@
+{% extends "base_template.html" %}
+{% block title %}{{ challenge.title }}{% endblock %}
+{% block content %}
+    <div class="challenge-header">
+        <h2>{{ challenge.title }}</h2>
+        <div class="challenge-meta">
+            <span class="badge category">{{ challenge.category }}</span>
+            <span>By: {{ challenge.author }}</span>
+            {% if challenge.solved %}
+                <span class="badge solved large">✓ Solved</span>
+            {% else %}
+                <span class="badge unsolved large">Unsolved</span>
+            {% endif %}
+        </div>
+        <a href="{{ url_for('index', tab='custom') }}" class="btn btn-secondary">Back to Custom Challenges</a>
+    </div>
+
+    <div class="challenge-content">
+        <div class="description">
+            <h3>Description</h3>
+            <div class="markdown-content">{{ challenge.description | safe }}</div>
+        </div>
+
+        {% if challenge.files %}
+            <div class="files">
+                <h3>Challenge Files</h3>
+                <ul class="file-list">
+                    {% for file in challenge.files %}
+                        <li>
+                            <span>{{ file.original_filename }}</span>
+                            <a href="{{ url_for('serve_custom_file', challenge_id=challenge.id, filename=file.filename) }}" class="download-link">Download</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <div class="flag-submission">
+            <h3>Submit Flag</h3>
+            <form id="flagForm" onsubmit="submitFlag(event)">
+                <input type="hidden" name="challenge_id" value="{{ challenge.id }}">
+                <input type="hidden" name="challenge_type" value="custom">
+                <div class="input-group">
+                    <input type="text" name="flag" placeholder="CTF{...}" required {% if challenge.solved %}disabled{% endif %}>
+                    <button type="submit" {% if challenge.solved %}disabled{% endif %}>
+                        {% if challenge.solved %}Already Solved{% else %}Submit{% endif %}
+                    </button>
+                </div>
+            </form>
+            <div id="result"></div>
+        </div>
+    </div>
+
+    <script>
+        async function submitFlag(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const result = document.getElementById('result');
+            
+            try {
+                const response = await fetch('/submit_flag', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                
+                result.innerHTML = `<div class="alert alert-${data.success ? 'success' : 'error'}">${data.message}</div>`;
+                
+                if (data.success) {
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
+                }
+            } catch (error) {
+                result.innerHTML = '<div class="alert alert-error">Error submitting flag</div>';
+            }
+        }
+    </script>
+{% endblock %}

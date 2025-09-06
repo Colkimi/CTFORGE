@@ -1,0 +1,169 @@
+{% extends "base_template.html" %}
+{% block title %}Review Challenges{% endblock %}
+{% block content %}
+    <div class="review-header">
+        <h2>Challenge Review Panel</h2>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="review-tabs">
+        <button class="tab-btn active" onclick="showTab('pending')">Pending Review ({{ pending_challenges|length }})</button>
+        <button class="tab-btn" onclick="showTab('all')">All Submissions</button>
+    </div>
+
+    <div id="pending-tab" class="tab-content active">
+        <h3>Pending Challenges</h3>
+        {% for challenge in pending_challenges %}
+            <div class="review-card">
+                <div class="review-header-info">
+                    <h4>{{ challenge.title }}</h4>
+                    <div class="challenge-meta">
+                        <span class="badge category">{{ challenge.category }}</span>
+                        <span>By: {{ challenge.author }}</span>
+                        <span>{{ challenge.created_at[:10] }}</span>
+                    </div>
+                </div>
+                
+                <div class="review-content">
+                    <div class="description">
+                        <strong>Description:</strong>
+                        <p>{{ challenge.description }}</p>
+                    </div>
+                    
+                    <div class="flag-info">
+                        <strong>Flag:</strong> <code>{{ challenge.flag }}</code>
+                    </div>
+                    
+                    {% if challenge.files %}
+                        <div class="files-info">
+                            <strong>Files:</strong>
+                            <ul>
+                                {% for file in challenge.files %}
+                                    <li>{{ file.original_filename }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="review-actions">
+                    <form class="review-form" onsubmit="reviewChallenge(event, '{{ challenge.id }}')">
+                        <textarea name="notes" placeholder="Review notes (optional)" rows="2"></textarea>
+                        <div class="action-buttons">
+                            <button type="button" onclick="submitReview('{{ challenge.id }}', 'approve', this.form)" class="btn btn-success">Approve</button>
+                            <button type="button" onclick="submitReview('{{ challenge.id }}', 'reject', this.form)" class="btn btn-danger">Reject</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {% else %}
+            <div class="no-challenges">
+                <p>No challenges pending review</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div id="all-tab" class="tab-content">
+        <h3>All Submissions</h3>
+        <div class="submissions-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        <th>Submitted</th>
+                        <th>Reviewed By</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for challenge in all_challenges %}
+                        <tr class="status-{{ challenge.status }}">
+                            <td>{{ challenge.title }}</td>
+                            <td>{{ challenge.author }}</td>
+                            <td>{{ challenge.category }}</td>
+                            <td>
+                                <span class="badge status-{{ challenge.status }}">{{ challenge.status.title() }}</span>
+                            </td>
+                            <td>{{ challenge.created_at[:10] }}</td>
+                            <td>{{ challenge.reviewed_by or '-' }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        async function submitReview(challengeId, action, form) {
+            const formData = new FormData();
+            formData.append('challenge_id', challengeId);
+            formData.append('action', action);
+            formData.append('notes', form.querySelector('textarea[name="notes"]').value);
+            
+            try {
+                const response = await fetch('/review_action', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Success: ' + data.message);
+                    location.reload();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            } catch (error) {
+                alert('Error processing review: ' + error.message);
+            }
+        }
+
+        // Keep the old function for compatibility
+        async function reviewChallenge(event, challengeId) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            formData.append('challenge_id', challengeId);
+            
+            try {
+                const response = await fetch('/review_action', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            } catch (error) {
+                alert('Error processing review');
+            }
+        }
+    </script>
+{% endblock %}

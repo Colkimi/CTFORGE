@@ -1,0 +1,85 @@
+{% extends "base_template.html" %}
+{% block title %}Create Custom Challenge{% endblock %}
+{% block content %}
+    <div class="create-header">
+        <h2>Create Custom Challenge</h2>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" enctype="multipart/form-data" class="custom-form">
+        <div class="form-group">
+            <label for="title">Challenge Title *</label>
+            <input type="text" name="title" id="title" required placeholder="Enter a descriptive title">
+        </div>
+
+        <div class="form-group">
+            <label for="category">Category *</label>
+            <select name="category" id="category" required>
+                <option value="">Select category...</option>
+                <option value="Web Exploitation">Web Exploitation</option>
+                <option value="Cryptography">Cryptography</option>
+                <option value="Forensics">Forensics</option>
+                <option value="Reverse Engineering">Reverse Engineering</option>
+                <option value="Binary Exploitation">Binary Exploitation</option>
+                <option value="Steganography">Steganography</option>
+                <option value="OSINT">OSINT</option>
+                <option value="Misc">Miscellaneous</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description *</label>
+            <textarea name="description" id="description" required rows="8" 
+                      placeholder="Provide a detailed description of your challenge. Include hints, context, and any special instructions."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="flag">Flag *</label>
+            <input type="text" name="flag" id="flag" required placeholder="CTF{your_flag_here}">
+            <small class="help-text">The correct flag for this challenge. Should start with CTF{}</small>
+        </div>
+
+        <div class="form-group">
+            <label for="files">Challenge Files (Optional)</label>
+            <input type="file" name="files" id="files" multiple>
+            <small class="help-text">Upload any files needed for the challenge (max 16MB per file)</small>
+        </div>
+
+        <div class="form-info">
+            <h4>Submission Guidelines</h4>
+            <ul>
+                <li>Ensure your challenge is original and well-tested</li>
+                <li>Provide clear, helpful descriptions without giving away the solution</li>
+                <li>Include all necessary files for solving the challenge</li>
+                <li>Use appropriate difficulty level for the category</li>
+                <li>Your challenge will be reviewed by administrators before approval</li>
+            </ul>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-large">Submit for Review</button>
+    </form>
+
+    <script>
+        document.getElementById('files').addEventListener('change', function(e) {
+            const files = e.target.files;
+            let totalSize = 0;
+            
+            for (let file of files) {
+                totalSize += file.size;
+            }
+            
+            if (totalSize > 16 * 1024 * 1024) {
+                alert('Total file size exceeds 16MB limit');
+                e.target.value = '';
+            }
+        });
+    </script>
+{% endblock %}

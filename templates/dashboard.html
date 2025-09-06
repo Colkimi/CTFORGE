@@ -6,9 +6,16 @@
         <div class="stats">
             <span class="stat">Solved: {{ solved_count }}/{{ challenges|length }}</span>
             <span class="stat">Score: {{ total_score }} points</span>
+            {% if user_role == 'admin' %}
+                <span class="stat admin-badge">Admin</span>
+            {% endif %}
         </div>
         <div class="actions">
-            <a href="{{ url_for('generate_challenge') }}" class="btn btn-primary">Generate New Challenge</a>
+            <a href="{{ url_for('generate_challenge') }}" class="btn btn-primary">Generate Challenge</a>
+            <a href="{{ url_for('create_custom_challenge') }}" class="btn btn-secondary">Create Custom</a>
+            {% if user_role == 'admin' %}
+                <a href="{{ url_for('review_challenges') }}" class="btn btn-warning">Review Submissions</a>
+            {% endif %}
             <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout</a>
         </div>
     </div>
@@ -21,25 +28,49 @@
         {% endif %}
     {% endwith %}
 
+    <div class="tabs">
+        <a href="{{ url_for('index', tab='generated') }}" class="tab {% if active_tab == 'generated' %}active{% endif %}">
+            Generated Challenges
+        </a>
+        <a href="{{ url_for('index', tab='custom') }}" class="tab {% if active_tab == 'custom' %}active{% endif %}">
+            Custom Challenges
+        </a>
+    </div>
+
     <div class="challenges-grid">
         {% for challenge in challenges %}
             <div class="challenge-card {% if challenge.solved %}solved{% endif %}">
-                <h3>{{ challenge.name }}</h3>
-                <p>{{ challenge.description }}</p>
+                <h3>{{ challenge.name if challenge_type == 'generated' else challenge.title }}</h3>
+                <p>{{ challenge.description[:200] }}{% if challenge.description|length > 200 %}...{% endif %}</p>
+                {% if challenge_type == 'custom' %}
+                    <div class="challenge-meta">
+                        <small>By: {{ challenge.author }} | Category: {{ challenge.category }}</small>
+                    </div>
+                {% endif %}
                 <div class="challenge-footer">
                     {% if challenge.solved %}
                         <span class="badge solved">✓ Solved</span>
                     {% else %}
                         <span class="badge unsolved">Unsolved</span>
                     {% endif %}
-                    <a href="{{ url_for('view_challenge', challenge_id=challenge.id) }}" class="btn btn-small">View Challenge</a>
+                    {% if challenge_type == 'custom' %}
+                        <a href="{{ url_for('view_custom_challenge', challenge_id=challenge.id) }}" class="btn btn-small">View Challenge</a>
+                    {% else %}
+                        <a href="{{ url_for('view_challenge', challenge_id=challenge.id) }}" class="btn btn-small">View Challenge</a>
+                    {% endif %}
                 </div>
             </div>
         {% else %}
             <div class="no-challenges">
-                <h3>No challenges available</h3>
-                <p>Generate some challenges to get started!</p>
-                <a href="{{ url_for('generate_challenge') }}" class="btn btn-primary">Generate Challenge</a>
+                {% if active_tab == 'custom' %}
+                    <h3>No custom challenges available</h3>
+                    <p>Submit your own challenges for review!</p>
+                    <a href="{{ url_for('create_custom_challenge') }}" class="btn btn-primary">Create Custom Challenge</a>
+                {% else %}
+                    <h3>No generated challenges available</h3>
+                    <p>Generate some challenges to get started!</p>
+                    <a href="{{ url_for('generate_challenge') }}" class="btn btn-primary">Generate Challenge</a>
+                {% endif %}
             </div>
         {% endfor %}
     </div>
