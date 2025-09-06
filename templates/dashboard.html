@@ -1,0 +1,46 @@
+{% extends "base_template.html" %}
+{% block title %}CTF Dashboard{% endblock %}
+{% block content %}
+    <div class="dashboard-header">
+        <h2>Welcome, {{ username }}!</h2>
+        <div class="stats">
+            <span class="stat">Solved: {{ solved_count }}/{{ challenges|length }}</span>
+            <span class="stat">Score: {{ total_score }} points</span>
+        </div>
+        <div class="actions">
+            <a href="{{ url_for('generate_challenge') }}" class="btn btn-primary">Generate New Challenge</a>
+            <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout</a>
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="challenges-grid">
+        {% for challenge in challenges %}
+            <div class="challenge-card {% if challenge.solved %}solved{% endif %}">
+                <h3>{{ challenge.name }}</h3>
+                <p>{{ challenge.description }}</p>
+                <div class="challenge-footer">
+                    {% if challenge.solved %}
+                        <span class="badge solved">✓ Solved</span>
+                    {% else %}
+                        <span class="badge unsolved">Unsolved</span>
+                    {% endif %}
+                    <a href="{{ url_for('view_challenge', challenge_id=challenge.id) }}" class="btn btn-small">View Challenge</a>
+                </div>
+            </div>
+        {% else %}
+            <div class="no-challenges">
+                <h3>No challenges available</h3>
+                <p>Generate some challenges to get started!</p>
+                <a href="{{ url_for('generate_challenge') }}" class="btn btn-primary">Generate Challenge</a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

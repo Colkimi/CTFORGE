@@ -1,0 +1,381 @@
+/* Base Styles */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+header {
+    background: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    padding: 1em;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+    font-weight: 300;
+}
+
+main {
+    margin: 2em auto;
+    max-width: 1200px;
+    background: #fff;
+    padding: 2em;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    min-height: 60vh;
+}
+
+footer {
+    background: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    padding: 1em;
+    text-align: center;
+    margin-top: 2em;
+}
+
+/* Login Form */
+.login-form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+input[type="text"], input[type="password"], select, textarea {
+    width: 100%;
+    padding: 0.8em;
+    margin-bottom: 1em;
+    border: 2px solid #e1e8ed;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.8em 1.5em;
+    background: #667eea;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 0.2em;
+}
+
+.btn:hover {
+    background: #5a6fd8;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary {
+    background: #28a745;
+}
+
+.btn-primary:hover {
+    background: #218838;
+    box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+}
+
+.btn-secondary {
+    background: #6c757d;
+}
+
+.btn-secondary:hover {
+    background: #545b62;
+}
+
+.btn-small {
+    padding: 0.5em 1em;
+    font-size: 0.9em;
+}
+
+.btn-large {
+    padding: 1em 2em;
+    font-size: 1.1em;
+}
+
+/* Dashboard */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2em;
+    padding-bottom: 1em;
+    border-bottom: 2px solid #e1e8ed;
+    flex-wrap: wrap;
+}
+
+.dashboard-header h2 {
+    margin: 0;
+    color: #333;
+}
+
+.stats {
+    display: flex;
+    gap: 1em;
+}
+
+.stat {
+    background: #f8f9fa;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #495057;
+}
+
+.actions {
+    display: flex;
+    gap: 0.5em;
+}
+
+/* Challenge Grid */
+.challenges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5em;
+    margin-top: 2em;
+}
+
+.challenge-card {
+    background: #f8f9fa;
+    border: 2px solid #e1e8ed;
+    border-radius: 10px;
+    padding: 1.5em;
+    transition: all 0.3s ease;
+}
+
+.challenge-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.challenge-card.solved {
+    border-color: #28a745;
+    background: #f8fff9;
+}
+
+.challenge-card h3 {
+    margin: 0 0 1em 0;
+    color: #333;
+}
+
+.challenge-card p {
+    color: #666;
+    margin-bottom: 1em;
+    line-height: 1.5;
+}
+
+.challenge-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Badges */
+.badge {
+    padding: 0.3em 0.8em;
+    border-radius: 15px;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.badge.solved {
+    background: #28a745;
+    color: white;
+}
+
+.badge.unsolved {
+    background: #dc3545;
+    color: white;
+}
+
+.badge.large {
+    font-size: 1em;
+    padding: 0.5em 1em;
+}
+
+/* Alerts */
+.alert {
+    padding: 1em;
+    margin: 1em 0;
+    border-radius: 8px;
+    border-left: 4px solid;
+}
+
+.alert-success {
+    background: #d4edda;
+    border-color: #28a745;
+    color: #155724;
+}
+
+.alert-error {
+    background: #f8d7da;
+    border-color: #dc3545;
+    color: #721c24;
+}
+
+/* Challenge Detail Page */
+.challenge-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2em;
+    padding-bottom: 1em;
+    border-bottom: 2px solid #e1e8ed;
+}
+
+.challenge-content {
+    display: grid;
+    gap: 2em;
+}
+
+.description, .files, .flag-submission {
+    background: #f8f9fa;
+    padding: 1.5em;
+    border-radius: 10px;
+    border-left: 4px solid #667eea;
+}
+
+.description h3, .files h3, .flag-submission h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.file-list {
+    list-style: none;
+    padding: 0;
+}
+
+.file-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5em;
+    background: white;
+    margin-bottom: 0.5em;
+    border-radius: 5px;
+    border: 1px solid #e1e8ed;
+}
+
+.download-link {
+    font-size: 0.8em;
+    color: #667eea;
+}
+
+.input-group {
+    display: flex;
+    gap: 0.5em;
+}
+
+.input-group input {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.input-group button {
+    white-space: nowrap;
+}
+
+/* Generate Challenge Page */
+.generate-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2em;
+    padding-bottom: 1em;
+    border-bottom: 2px solid #e1e8ed;
+}
+
+.form-group {
+    margin-bottom: 1.5em;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5em;
+    font-weight: bold;
+    color: #333;
+}
+
+.challenge-descriptions {
+    display: grid;
+    gap: 1em;
+    margin: 2em 0;
+}
+
+.description-card {
+    background: #f8f9fa;
+    padding: 1.5em;
+    border-radius: 10px;
+    border: 2px solid #e1e8ed;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+
+.description-card.active {
+    opacity: 1;
+    border-color: #667eea;
+    background: #fff;
+}
+
+.description-card h4 {
+    margin-top: 0;
+    color: #333;
+}
+
+.description-card ul {
+    margin: 0;
+    padding-left: 1.5em;
+}
+
+.no-challenges {
+    text-align: center;
+    padding: 3em;
+    color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    main {
+        margin: 1em;
+        padding: 1em;
+    }
+    
+    .dashboard-header {
+        flex-direction: column;
+        gap: 1em;
+        text-align: center;
+    }
+    
+    .challenges-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .challenge-header {
+        flex-direction: column;
+        gap: 1em;
+        text-align: center;
+    }
+    
+    .input-group {
+        flex-direction: column;
+    }
+}

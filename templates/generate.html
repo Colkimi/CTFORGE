@@ -1,0 +1,82 @@
+{% extends "base_template.html" %}
+{% block title %}Generate Challenge{% endblock %}
+{% block content %}
+    <div class="generate-header">
+        <h2>Generate New Challenge</h2>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" class="generate-form">
+        <div class="form-group">
+            <label for="type">Challenge Type</label>
+            <select name="type" id="type" required>
+                <option value="">Select challenge type...</option>
+                <option value="web">Web Exploitation</option>
+                <option value="crypto">Cryptography</option>
+                <option value="forensics">Forensics</option>
+            </select>
+        </div>
+
+        <div class="challenge-descriptions">
+            <div class="description-card" data-type="web">
+                <h4>Web Exploitation</h4>
+                <p>Generates challenges like SQL injection, XSS, LFI, or brute force attacks with vulnerable Flask applications.</p>
+                <ul>
+                    <li>SQL Injection vulnerabilities</li>
+                    <li>Cross-Site Scripting (XSS)</li>
+                    <li>Local File Inclusion (LFI)</li>
+                    <li>Brute force login forms</li>
+                </ul>
+            </div>
+
+            <div class="description-card" data-type="crypto">
+                <h4>Cryptography</h4>
+                <p>Creates various encryption and encoding challenges to test cryptographic knowledge.</p>
+                <ul>
+                    <li>Base64 encoding</li>
+                    <li>ROT13 cipher</li>
+                    <li>Vigenère cipher</li>
+                    <li>XOR encryption</li>
+                    <li>AES encryption</li>
+                    <li>Simplified RSA</li>
+                </ul>
+            </div>
+
+            <div class="description-card" data-type="forensics">
+                <h4>Forensics</h4>
+                <p>Generates challenges involving file analysis, steganography, and digital forensics.</p>
+                <ul>
+                    <li>Image steganography</li>
+                    <li>EXIF metadata analysis</li>
+                    <li>PCAP network analysis</li>
+                    <li>Binary file analysis</li>
+                </ul>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-large">Generate Challenge</button>
+    </form>
+
+    <script>
+        const typeSelect = document.getElementById('type');
+        const descriptions = document.querySelectorAll('.description-card');
+
+        typeSelect.addEventListener('change', function() {
+            descriptions.forEach(card => {
+                if (card.dataset.type === this.value) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
+            });
+        });
+    </script>
+{% endblock %}
