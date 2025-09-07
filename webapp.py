@@ -67,6 +67,7 @@ def init_database():
 # Initialize database on startup
 init_database()
 
+#function to get challenges fro the backend
 def get_challenges():
     """Get all available challenges from the challenges directory"""
     challenges_dir = Path(__file__).parent / 'challenges'
