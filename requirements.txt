@@ -1,0 +1,6 @@
+flask
+gunicorn
+werkzeug
+sqlite3
+pathlib
+uuid
