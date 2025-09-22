@@ -415,8 +415,33 @@ fernet.decrypt(encrypted_flag.encode()).decode()"""
 
         return challenge_info
 
+# ASCII Art Banner
+def print_banner():
+    banner = """
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   ▄████▄  ▄▄▄█████▓  █████▒ ▒█████   ██▀███    ▄████ ▓█████ ║
+║  ▒██▀ ▀█  ▓  ██▒ ▓▒▓██   ▒ ▒██▒  ██▒▓██ ▒ ██▒ ██▒ ▀█▒▓█   ▀ ║
+║  ▒▓█    ▄ ▒ ▓██░ ▒░▒████ ░ ▒██░  ██▒▓██ ░▄█ ▒▒██░▄▄▄░▒███   ║
+║  ▒▓▓▄ ▄██▒░ ▓██▓ ░ ░▓█▒  ░ ▒██   ██░▒██▀▀█▄  ░▓█  ██▓▒▓█  ▄ ║
+║  ▒ ▓███▀ ░  ▒██▒ ░ ░▒█░    ░ ████▓▒░░██▓ ▒██▒░▒▓███▀▒░▒████▒║
+║  ░ ░▒ ▒  ░  ▒ ░░    ▒ ░    ░ ▒░▒░▒░ ░ ▒▓ ░▒▓░ ░▒   ▒ ░░ ▒░ ░║
+║    ░  ▒       ░     ░        ░ ▒ ▒░   ░▒ ░ ▒░  ░   ░  ░ ░  ░║
+║  ░          ░       ░ ░    ░ ░ ░ ▒    ░░   ░ ░ ░   ░    ░   ║
+║  ░ ░                           ░ ░     ░           ░    ░  ░║
+║  ░                                                           ║
+║                                                               ║
+║              🚩 CTF Challenge Generator v1.0 🚩               ║
+║         Making cybersecurity education accessible             ║
+║                       by @colkimi                                        ║
+╚═══════════════════════════════════════════════════════════════╝
+"""
+    print(banner)
+
 # Parse arguements and provide info
 def main():
+    print_banner()
+    
     parser = argparse.ArgumentParser(description="CTF Challenge Generator")
     parser.add_argument('--type', choices=['web', 'crypto', 'forensics'], 
                        required=True, help="Type of challenge to generate")
